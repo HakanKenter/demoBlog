@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
+{# Le template index.html.twig hérite de notre gabari de base 'base.html.twig' (header + footer +liens CSS etc ..) #}
 
-{% block title %}Ce que je veux !{% endblock %}
+{# Le bloc 'title' apparait dans l'onglet du navigateur #}
+{% block title %}Blog Symfony | Liste des articles {% endblock %}
 
+{# le bloc body fait référence au bloque body déclaré dans le fichier base.html.twig #}
+{# Le contennu du bloc 'body' est envoyé dans le bloc body du fichier bas.html.twig #}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Ce que je veux ! ✅</h1>
+    <h1 class="display-4 text-center my-4">Liste des articles</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/SYMFONY/demoBlog/src/Controller/BlogController.php'|file_link(0) }}">src/Controller/BlogController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/SYMFONY/demoBlog/templates/blog/index.html.twig'|file_link(0) }}">templates/blog/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="row">
+
+      <div class="col-md-3 border border-secondary rounded mr-1 mb-1">
+        <h2>Heading</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      </div>
+
+      <div class="col-md-3 border border-secondary rounded mr-1 mb-1">
+        <h2>Heading</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      </div>
+
+      <div class="col-md-3 border border-secondary rounded mr-1 mb-1">
+        <h2>Heading</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      </div>
+
+      <div class="col-md-3 border border-secondary rounded mr-1 mb-1">
+        <h2>Heading</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      </div>
+
+    </div>
+
 {% endblock %}

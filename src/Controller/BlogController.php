@@ -9,6 +9,7 @@ class BlogController extends AbstractController
 {
     // Un commentaire qui commence par un '@' est une annotation très importante, Symfony explique que lorsqu'on lancera www.monsite.com/blog, on fera appel à la méthode index()
     // Pas besoin de préciser templates/blog/index.html.twig, Symfony sait ou se trouve les fichiers template de rendu
+
     /**
      * @Route("/blog", name="blog")
      */
@@ -24,6 +25,9 @@ class BlogController extends AbstractController
      */
     public function home()
     {
-        return $this->render('bloc/home.html.twig');
+        return $this->render('blog/home.html.twig', [
+            'title' => "Bienvenue sur le blog Symfony", 
+            "age" => 25
+        ]);
     }
 }
