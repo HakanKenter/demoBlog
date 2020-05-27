@@ -2,21 +2,25 @@
 
 
 {% block body %}
-    <h1>Bienvenue sur la page create !</h1>
+    <h1 class="mx-auto text-center">Création d'un article!</h1>
 
-    <div class="col-md-12 border border-secondary rounded mr-1 mb-5 text-center">
-        <img src="https://picsum.photos/1000/300" alt="" class=""><hr>
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    {# Réaliser un formulaire HTML correspondant à la table article (sauf id et createdAt) #}
 
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    <form method="post" class="col-md-5 mx-auto">
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type='text' class="form-control" name="title" id="title">
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea type='text' class="form-control" name="content" id="content"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type='text' class="form-control" name="image" id="image">
+        </div>
 
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    </div>
+        <button type="submit" class="btn btn-dark">Enregistrer</button>
+        
+    </form>
 {% endblock %}

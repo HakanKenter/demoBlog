@@ -24,6 +24,11 @@
             <div class="collapse navbar-collapse" id="navbarsExample04">
                 <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('blog_create') }}">Creation<span class="sr-only">(current)</span></a>
+                    {# path() : fonction TWIG permettant de générer une URL en fonction du nom de la route envoyer en argument #}
+                    {# le nom de la route 'blog' est déclarée dans le controller 'BlogController' et est rattaché à la méthode index() #}
+                </li>
+                <li class="nav-item active">
                     <a class="nav-link" href="{{ path('blog') }}">Articles<span class="sr-only">(current)</span></a>
                     {# path() : fonction TWIG permettant de générer une URL en fonction du nom de la route envoyer en argument #}
                     {# le nom de la route 'blog' est déclarée dans le controller 'BlogController' et est rattaché à la méthode index() #}
