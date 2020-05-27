@@ -20,7 +20,7 @@ class ArticleFixtures extends Fixture
             $article->setTitle("Titre de l'article n° $i")
                     ->setContent("<p>Contenu de l'article n° $i</p>")
                     ->setImage("https://picsum.photos/250")
-                    ->setCreatedAt(new DateTime());
+                    ->setCreatedAt(new \DateTime()); // objet classe DatTime() prédéfinies
             
             $manager->persist($article); // persist() est une méthode issue de la classe ObjectManager permettant de garder en mémoire
             // les objets Articles crées, il les fait persister dans le temps 
