@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BlogController extends AbstractController
 {
@@ -56,14 +60,119 @@ class BlogController extends AbstractController
         ]);
     }
 
+    
+    /*
+        On déclare une route permettant d'insérer un article '/blog/new'
+        On déclare une route paramétrée '/blog/{id}/edit' permettant de modifier un article 
+
+        Si nous envoyons un {id} dans l'URL, Symfony est capable d'aller sélectionner en BDD 
+        les données de l'article, donc l'objet $article n'est plus NULL 
+        Si nous n'envoyons pas d'{id} dans l'URL, à ce moment là l'objet $article est bien NULL
+    */
+
     /**
      * @Route("/blog/new", name="blog_create")
+     * @Route("/blog/{id}/edit", name="blog_edit")
      */
-    public function create(Request $request)
+    public function form(Article $article = null, Request $request, EntityManagerInterface $manager)
     {
+        // initalement méthode create()
+
+        /*
+            La classe Request est une classe prédéfinie en Symfony qui stockent toutes les données véhiculées par les superglobal
+            ($_POST, $_GET, $_SERVER etc...) 
+            La propriété 'request' représente la superglobale $_POST, les données saisies dans le formulaire sont accessible via 
+            cette propriétés, ça renvoi des parameterBag (sac de parametres)
+            Pour insérer un nouvel article, nous devons instancier la classe pour avoir un article vide, toutes les propriété private 
+            ($title, $content, $image), ils faut donc les remplir, pour cela nous faisons appel au setter
+
+            EntityManagerInterface est une méthode prédéfinies de Symfony qui permet de manipuler les lignes de la BDD
+            (INSERT, UPDATE, DELETE)
+
+            persist() est une méthode de la classe EntityManagerInterface qui permet de stocker et de préparer la requete SQL
+            d'insertion
+            flush() est une méthode de la classe EntityManagerInterface qui permet de libérer la requete d'insertion, c'est elle qui envoie 
+            véritablement dans la BDD
+
+            redirectionToRoute() méthode prédéfinies de Symfony qui permet de redirigés vers une route spécifique, 
+            dans notre cas on redirige après insertion vers la route blog_show (avec le bon dernier id insérer) 
+            afin de renvoyer vers le détail de l'article qui vien d'être inséré
+        */
+
+
         dump($request);
 
-        return $this->render('blog/create.html.twig');
+        // if($request->request->count() > 0)
+        // {
+        //     $article = new Article;
+        //     $article->setTitle($request->request->get('title'))
+        //             ->setContent($request->request->get('content'))
+        //             ->setImage($request->request->get('image'))
+        //             ->setCreatedAt(new \DateTime());
+
+        //     $manager->persist($article);
+        //     $manager->flush();
+
+        //     dump($article);
+
+        //     return $this->redirectToRoute('blog_show', [
+        //         'id' => $article->getId()
+        //     ]);
+        // }
+
+        /*
+            createFormBuilder() est une méthode prédéfinies de symfony qui permet de créer un formulaire à partir d'une entité, dans 
+            notre cas de la classe Article, cela permet aussi de dire que le formulaire permettra de remplir l'objet issue de la classe
+            Article $article
+
+            add() est une méthode  qui permet de créer les différents champs du formulaire
+            getForm() est une méthode qui permet de terminer et de valider le formulaire
+            handleRequest() est une méthode qui permet de recuperer dans notre cas les information stockés dans $_POST et de remplir 
+            notre objet $article, plus besoin d'appelé les setters de la classe Article
+        */
+
+        // Si l'objet $article n'est pas rempli, cela veut dire que nous n'avons pas envoyé d'{id} dans l'RUL, alors c'est une insertion, on crée un nouvel 
+        if(!$article)
+        {
+            $article = new Article;
+        }
+
+        // On observe quand remplissant l'objet $article via les setters, les getteurs renvoient les données de l'article directement à l'interieur des champs du formulaire
+        // $article->setTitle("Titre à la conv")
+        //         ->setContent("Contenu de l'article à la convr");
+
+        $form = $this->createFormBuilder($article)
+                     ->add('title')
+                     ->add('content')
+                     ->add('image')
+                     ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) // Si le formulaire est soumis et est valide 
+        {
+            // Si l'article ne possede pas d'{id} sa veut dire que ce nest pas une modif, alors on appel les setteur de la date de creation de l'article
+            // Si c'est une modification, l'article possede deja un id, alors on ne modifie pasla date de creation de l'article
+            if(!$article->getId())
+            {
+                $article->setCreatedAt(new \DateTime());
+            }
+
+            $manager->persist($article); // persiste récupère l'objet $article et prépare la requete d'insertion  
+            $manager->flush(); // flush() libère réellement la requete SQL d'insertion
+
+            // On redirige après insertion vers le détail de l'article qui vient d'être insérer
+            return $this->redirectToRoute('blog_show', [
+                'id' => $article->getId()
+            ]);
+        }
+
+        return $this->render('blog/create.html.twig', [
+            'formArticle' => $form->createView()
+        ]);
+
+
+        // return $this->render('blog/create.html.twig');
     }
 
 
@@ -102,7 +211,7 @@ class BlogController extends AbstractController
             'article' => $article
         ]);
         // On envoi dans le template show.html.twig, les données selectionnées en BDD, c'est à dire le detail d'un article
-        // extract(['article' => $article]) => 'article' devient une variable TWIG dans le tyemplate show.html.twig
+        // extract(['article' => $article]) => 'article' devient une variable TWIG dans le template show.html.twig
 
         /*
                     doctrine
@@ -127,7 +236,7 @@ class BlogController extends AbstractController
     appelé conteneur de service. Il vous facilite la vie, favorise une architecture solide et super rapide !!
 
     La fonction index() a pour rôle de nous afficher la liste des articles de la BDD et pour fonctionner, elle a donc besoin d'un repository (requete de selection),
-    quand une fonction a besoin de quelque chose pour fonctionner, on appel ça une dépendance,
+    quand une fonction a besoin de quelque chose pour foctionnner, on appel ça une dépendance,
     la fonction dépend d'un repository pour aller chercher la liste des articles
 
     Donc si nous avons une dépendance, nous pouvons demander à Symfony de nous la fournir plutôt que de la fabriquer nous même

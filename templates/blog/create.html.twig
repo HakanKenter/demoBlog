@@ -1,12 +1,13 @@
 {% extends "base.html.twig" %} 
 
+{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
     <h1 class="mx-auto text-center">Création d'un article!</h1>
 
     {# Réaliser un formulaire HTML correspondant à la table article (sauf id et createdAt) #}
 
-    <form method="post" class="col-md-5 mx-auto">
+    {# <form method="post" class="col-md-5 mx-auto">
         <div class="form-group">
             <label for="title">Titre</label>
             <input type='text' class="form-control" name="title" id="title">
@@ -22,5 +23,20 @@
 
         <button type="submit" class="btn btn-dark">Enregistrer</button>
         
-    </form>
+    </form> #}
+
+    {# {{ form(formArticle) }} #}
+
+    {{ form_start(formArticle, { 'attr' : {'class' : 'col-md-6 mx-auto'}}) }}
+
+      
+        {{ form_row(formArticle.title, { 'attr' : { 'placeholder' : "Titre de l'article"} }) }}
+
+        {{ form_row(formArticle.content, { 'attr' : { 'placeholder' : "Contenu de l'article", "rows": 15} }) }}
+
+        {{ form_row(formArticle.image, { 'attr' : { 'placeholder' : "URL de l'image"} }) }}
+
+        <button type="submit" class="btn btn-primary">Ajouter l'article</button>
+
+    {{ form_end(formArticle) }}
 {% endblock %}
