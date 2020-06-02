@@ -22,9 +22,12 @@
       {% for newArticle in articles %}
 
       <div class="col-md-3 border border-secondary rounded mr-5 mb-5 text-center">
-        <img src="{{ newArticle.image }}" alt="{{ newArticle.title }}"><hr>
+        <img src="{{ newArticle.image }}" alt="{{ newArticle.title }}" class="col-md-12 rounded"><hr>
         <h2>{{ newArticle.title }}</h2>
-        <p>{{ newArticle.content|raw }} </p><hr>
+
+        <p>{{ newArticle.content|slice(3, 200)|raw }} ... </p><hr>
+        {# slice(3,200) : fonction TWIG qui retourne une partie de la chaine de caractère #}
+
         <p>Posté le {{ newArticle.CreatedAt|date("d/m/Y") }} à {{ newArticle.CreatedAt|date(" H:i:s") }}</p>
         <p><a class="btn btn-secondary" href="{{ path('blog_show', {'id': newArticle.id }) }}" role="button">Voir le détail &raquo;</a></p>
         {# On ajoute un  paramètre à la méthode path() de TWIG afin de transmettre l'id de l'article dans l'URL #}

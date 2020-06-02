@@ -3,7 +3,13 @@
 {% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-    <h1 class="mx-auto text-center">Création d'un article!</h1>
+    <h1 class="mx-auto text-center"> 
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Ajouter l'article
+        {% endif %}
+    </h1>
 
     {# Réaliser un formulaire HTML correspondant à la table article (sauf id et createdAt) #}
 
@@ -32,11 +38,20 @@
       
         {{ form_row(formArticle.title, { 'attr' : { 'placeholder' : "Titre de l'article"} }) }}
 
+        {{ form_row(formArticle.category) }}
+
         {{ form_row(formArticle.content, { 'attr' : { 'placeholder' : "Contenu de l'article", "rows": 15} }) }}
 
         {{ form_row(formArticle.image, { 'attr' : { 'placeholder' : "URL de l'image"} }) }}
 
-        <button type="submit" class="btn btn-primary">Ajouter l'article</button>
+        <button type="submit" class="btn btn-primary">
+            {% if editMode %}
+                Enregistrer les modifications
+            {% else %}
+                Ajouter l'article
+            {% endif %}
+        </button>
+        
 
     {{ form_end(formArticle) }}
 {% endblock %}
