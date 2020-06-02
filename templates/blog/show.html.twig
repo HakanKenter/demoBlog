@@ -29,11 +29,36 @@
         <img src="{{ article.image|replace({"250": "1000/300"}) }}" alt="{{ article.title }}" class=""><hr>
         <h2>{{ article.title }}</h2>
         <p>{{ article.content|raw }}</p><hr>
-        <p>Posté le {{ article.CreatedAt|date('d/m/Y') }} à {{ article.CreatedAt|date('H:i:s')}}</p>
+        <p class="text-right">Posté le {{ article.CreatedAt|date('d/m/Y') }} à {{ article.CreatedAt|date('H:i:s') }} dans la catégorie <strong>{{ article.category.title }}</strong> </p>
+        {# Avec les relations entre les tables, nous avons accès à la catégorie lié à l'article et nous avons aussi accès aux commentaires liés à l'article 
+        (relation bi-directionnelle : via l'entitée Article nous avons accès à l'entité Catégory et Comment puisque ces entités sont reliés entre elles) #}
     </div>
     
     {# Pensez à prévoir un lien qui renvoi à la liste des article #}
-    <a class="btn btn-dark" style='text-decoration:none' href="{{ path('blog') }}">Retour à la liste</a></p>
+    <a class="btn btn-dark mb-3" style='text-decoration:none' href="{{ path('blog') }}">Retour à la liste</a></p>
+
+    <h2 class="text-center">Commentaires</h2>
+
+    <div class="col-md-12">
+    
+        {# Nous avons accès aux commentaires de l'article via l'entité Article #}
+        {# comment : variable de réception (déclarée ici) qui receptionne une ligne de commentairepar tour de boucle #}
+        {# article.comments : on pointe sur l'indice 'comments' de l'objet 'article' qui contient tout les commentaires liés à l'article #}
+        {% for comment in article.comments %}
+
+            <div class="row border rounded mb-3">
+                <div class="col-md-4">
+                    <span>{{ comment.author}}</span>
+                    <small class="font-italic">( {{ comment.createdAt|date('d/m/Y à H:i:s') }} )</small>
+                </div>
+                <div class="col-md-8">
+                    <p>{{ comment.content|raw }}</p>
+                </div>
+            </div>
+
+        {% endfor %}
+        
+    </div>
 
 
 {% endblock %}
