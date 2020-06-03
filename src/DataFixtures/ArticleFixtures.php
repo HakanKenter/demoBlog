@@ -45,7 +45,7 @@ class ArticleFixtures extends Fixture
                 $article->setTitle($faker->sentence())
                         ->setContent($content)
                         ->setImage($faker->imageUrl())
-                        ->setCreatedAt($faker->dateTimeBetween('-6 months'))
+                        ->setCreatedAt($faker->dateTimeBetween('-6 months')) // Il fait des dates aléatoire de ya 6 mois a aujourd'huit
                         ->setCategory($category); // On renseigne la clé étrangère qui permet
                         // de relier les articles au catégories
 
@@ -59,10 +59,14 @@ class ArticleFixtures extends Fixture
 
                     $content = '<p>' . join($faker->paragraphs(5), '<p></p>') .'</p>';
 
+
+                    // Cette manip la c'est pour que mes commentaires ne dates pas plus que mon article
                     $now = new \DateTime(); // objet dateTime avec l'heure det la date du jour
                     $interval = $now->diff($article->getCreatedAt()); // représente entre maintenant et la date de crétion de l'article (timestamp)
                     $days = $interval->days; // nombre de jour entre maintenant et la date de création de l'article
+                    // On transfome en jour car daetTimeBetween a besoin de jours
                     $minimum = '-' . $days . ' days'; // - 100 days entre la date de création de larticle et maintenant 
+                    // Car dateTimeBetween attend une donnée de ce type "-6 months" , soit des mois soit des jour
 
                     $comment->setAuthor($faker->name)
                             ->setContent($content)
