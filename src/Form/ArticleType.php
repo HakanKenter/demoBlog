@@ -17,7 +17,7 @@ class ArticleType extends AbstractType
             ->add('title')
             // on ajoute le champs 'catégorie' pour le formulaire d'ajout d'article
             // On précise de quelle entité provient le champs "catégorie"
-            ->add('category', EntityType::class, [
+            ->add('category', EntityType::class, [ // EntityType:: class pour dire que ce vchamp provient d'une entité
                 'class' => Category::class,
                 'choice_label' => "title"
             ])
