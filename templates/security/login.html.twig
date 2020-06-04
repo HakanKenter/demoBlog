@@ -4,18 +4,33 @@
 
     <h1 class="display-4 text-center my-4">Identifiez-vous</h1> 
 
+    {# Si il y a une erreur d'identification de connexion, alors on entre dans le IF et on affiche le message d'erreur #}
+    {# error: variable TWIG qui vient du controller SecurityController #}
+    {% if error %}
+        
+        <p class="bg-danger text-white text-center p-2 col-md-5 mx-auto rounded">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+        {# trans(error.messageData, 'security') : on indique à TWIG que la traduction du message d'erreur 'Invalid credentials.' se 
+           trouve dans le fichier 'translations/security.en.php' #}
+
+    {% endif %}
+
     <form method="post" class="col-md-5 mx-auto" action="{{ path('security_login') }}">
         <div class="form-group">
             <label for="_username">Email</label>
-            <input type="text" class="form-control" id="_username" name="_username">
+            <input type="text" class="form-control" id="_username" name="_username" value="{{ last_username }}">
+            {# On stock dans l'attribut 'value' le dernier Email postée par l'utilisateur en cas d'erreur d'identifiant #}
+            {# last_username: vairable qui vient du controller SecurityController #}
         </div>
         <div class="form-group">
-            <label for="_password">Email</label>
+            <label for="_password">Mot de passe</label>
             <input type="password" class="form-control" id="_password" name="_password">
         </div>
         <div class="form-group">
         </div>
         <button type="submit" class="btn btn-primary">Sign in</button>
     </form>
+
+    {# TOUJOURS LES UNDERSCORE et aussi il est primordiale de mettre _username pour l'email
+        et _password pour le mot de passe #}
 
 {% endblock %}

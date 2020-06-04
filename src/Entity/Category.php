@@ -98,4 +98,10 @@ class Category
 
         return $this;
     }
+
+    // Les title tu me les renvoi sous forme de chaine de caractère
+    public function __toString()
+    {
+        return $this->title;
+    }
 }
