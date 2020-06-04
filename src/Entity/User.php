@@ -47,6 +47,11 @@ class User implements UserInterface // On a mis implements UserInterface : quand
      */
     public $confirm_password;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $Roles = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +113,20 @@ class User implements UserInterface // On a mis implements UserInterface : quand
     // cette méthode renvoi un tableau de chaine de caractere ou sont stockés les rôles accordés à l'utilisateur
     public function getRoles()
     {
-        return ['ROLES_USER'];
+        // return ['ROLES_USER'];
+        return $this->Roles;
+    }
+
+    // cette fonction c'est pcq sinon sa renvoi une erreur qui dit que sa renoi pas une chaine de caractère
+    public function __toString()
+    {
+        return $this->email;
+    }
+
+    public function setRoles(array $Roles): self
+    {
+        $this->Roles = $Roles;
+
+        return $this;
     }
 }
